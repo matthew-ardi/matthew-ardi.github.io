@@ -1,1 +1,104 @@
-Hello world
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>US Population Visualization</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div id="visualization"></div>
+    <style> circle {fill: lightblue; stroke: black;} </style>
+    <body onload='init()'>
+    <svg width=300 height=300></svg>
+    <script>
+        // Process data
+        // Scene 1: Introduction
+        // const svg = d3.select("#visualization").append("svg").attr("width", 800).attr("height", 600);
+
+        // Create map and initial visualization
+        // Scene 2: Most Populous States
+        // Transition to bar chart showing most populous states
+        // Scene 3: Population Growth
+        // Transition to line chart showing states with fastest population growth
+        // Scene 4: Population Density
+        // Transition to comparison chart of population density
+        // Scene 5: Summary
+        // Final summary and conclusions
+        const width = 960;
+        const height = 600;
+
+        // Create an SVG element
+        const svg = d3.select("#map")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        // Define a projection
+        const projection = d3.geoAlbersUsa()
+            .translate([width / 2, height / 2])
+            .scale(1000);
+
+        // Define a path generator using the projection
+        const path = d3.geoPath()
+            .projection(projection);
+
+        // Load GeoJSON data
+        d3.json('us-states.json').then(data => {
+            // Bind data and create one path per GeoJSON feature
+            svg.selectAll(".state")
+                .data(data.features)
+                .enter().append("path")
+                .attr("class", "state")
+                .attr("d", path);
+        }).catch(error => {
+            console.error('Error loading or processing data:', error);
+        });
+        // async function init() {
+        //     const data = await d3.csv("https://flunky.github.io/cars2017.csv");
+        
+        //     const width = 200;
+        //     const height = 200;
+        //     const margin = {top: 50, right: 20, bottom: 30, left: 50};
+            
+        //     const svg = d3.select("svg")
+        //         .attr("width", width + margin.left + margin.right)
+        //         .attr("height", height + margin.top + margin.bottom)
+        //     .append("g")
+        //         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
+        //     const x = d3.scaleLog()
+        //         .domain([10, 150])
+        //         .range([0, width]);
+            
+        //     const y = d3.scaleLog()
+        //         .domain([10, 150])
+        //         .range([height, 0]);
+            
+        //     const xAxis = d3.axisBottom(x)
+        //         .tickValues([10, 20, 50, 100])
+        //         .tickFormat(d3.format("~s"));
+            
+        //     const yAxis = d3.axisLeft(y)
+        //         .tickValues([10, 20, 50, 100])
+        //         .tickFormat(d3.format("~s"));
+
+        //     d3.select("svg").append("g")
+        // .attr("transform", "translate("+ margin.left +"," + margin.top + ")")
+        //         .call(yAxis);
+            
+        //     d3.select("svg").append("g")
+        //         .attr("transform", "translate("+ margin.left +"," +(height + margin.top) + ")")
+        //         .call(xAxis);
+            
+
+            
+        //     svg.selectAll("circle")
+        //         .data(data)
+        //     .enter().append("circle")
+        //         .attr("cx", d => x(+d["AverageCityMPG"]))
+        //         .attr("cy", d => y(+d["AverageHighwayMPG"]))
+        //         .attr("r", d => 2 + (+d["EngineCylinders"]));
+        // }
+    </script>
+</body>
+</html>
