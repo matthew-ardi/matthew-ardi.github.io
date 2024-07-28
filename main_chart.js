@@ -1,13 +1,3 @@
-// Function to get query parameters
-function getQueryParams() {
-    const params = {};
-    window.location.search.substring(1).split("&").forEach(param => {
-        const [key, value] = param.split("=");
-        params[key] = decodeURIComponent(value);
-    });
-    return params;
-}
-
 function getLastURISegment() {
     const pathArray = window.location.pathname.split('/');
     return pathArray[pathArray.length - 1];
@@ -132,17 +122,10 @@ function getAnnotation(x, y, transformedData, svg, slide_name) {
 function getHoverGuide(){
     d3.select("#details-content").html(`<i>Hover over the points on the chart to see detailed information about the unemployment rate for each month.</i>`);
 }
-// Get the file name from query parameters
-const params = getQueryParams();
-const fileName = params.file || 'less_high_school_over_25.json';  // Default file if not provided
 
 
-d3.json(fileName).then(data => {
-    // Transform the data to the desired format
-    // const transformedData = data.map(d => ({
-    //     year: d3.timeParse("%Y")(d.Year),
-    //     value: +d.Apr // Change this to the desired month or calculate the average
-    // }));
+
+d3.json('less_high_school_over_25.json').then(data => {
     getHoverGuide()
 
     const slide_name = getLastURISegment();
