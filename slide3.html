@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <title>Unemployment Rate Visualization</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
 
 </head>
 <body>
     <div>
         <h1>United States National Unemployment Rate</h1>
+        <h5>Data: Unemployed Individuals Age 25 years and over</h5>
     </div>
     <div>
         <button onclick="location.href='slide2.html?file=high_school_no_college_over_25.json'">&#9664; Previous</button>
@@ -18,11 +20,23 @@
     <div class="container">
         <div id="chart"></div>
         <div id="details">
-            <h2>College or Associate degree, 25 years and over</h2>
+            <h2>Compare the trends</h2>
+            <p> 
+                During both the great recession and COVID-19 pandemic, Unemployment rate changes
+                were consistent across different education demographic. However, population with individuals
+                that had higher education would less likely to be laid off. 
+
+            </p>
+            <div id="controls">
+                <p>Filter:</p>
+                <label><input type="checkbox" id="dataset1" checked> Less than High School Diploma</label><br>
+                <label><input type="checkbox" id="dataset2" checked> High School Graduates</label><br>
+                <label><input type="checkbox" id="dataset3" checked> Some College or Associate Degree</label>
+            </div>
             <div id="details-content"></div>
         </div>
     </div>
 
-    <script src="main_chart.js"></script>
+    <script src="final_chart.js"></script>
 </body>
 </html>

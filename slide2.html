@@ -4,22 +4,35 @@
     <meta charset="UTF-8">
     <title>Unemployment Rate Visualization</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
 
 </head>
 <body>
     <div>
         <h1>United States National Unemployment Rate</h1>
+        <h5>Data: Unemployed Individuals with Less than a high school diploma, Age 25 years and over</h5>
     </div>
     <div>
         <button onclick="location.href='index.html?file=less_high_school_over_25.json'">&#9664; Previous</button>
-        <button onclick="location.href='slide3.html?file=college_or_associate_over_25.json'">Next &#9654;</button>
+        <button onclick="location.href='slide3.html'">Next &#9654;</button>
     </div>
     
     <div class="container">
         <div id="chart"></div>
         <div id="details">
-            <h2>High School Graduates with no College Degree, 25 years and over</h2>
+            <h2>COVID-19</h2>
+            <p> 
+                After several state, city and county government imposed 'stay at home' quarantines to
+                stem the spread of the virus, facing economic uncertainty many businesses laid-off their employees,
+                resulting in the highest unemployment rate since the great recession.                
+            </p>
+            <p>
+                Unlike the great recession, economic recovery was made faster due to the rapid development
+                of COVID-19 vaccine and rapid distribution of the vaccine. Businesses had more optimistic outlook
+                at the end of pandemic that resulted in more hiring and unemployment rate back
+                to pre-pandemic level in 2022
+            </p>
             <div id="details-content"></div>
         </div>
     </div>

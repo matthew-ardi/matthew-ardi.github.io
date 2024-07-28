@@ -32,3 +32,10 @@ svg {
     width: 100%;
     height: 500px;
 }
+.legend {
+    font-size: 12px;
+}
+.legend rect {
+    stroke-width: 1;
+    stroke: black;
+}

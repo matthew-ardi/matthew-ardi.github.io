@@ -8,8 +8,129 @@ function getQueryParams() {
     return params;
 }
 
+function getLastURISegment() {
+    const pathArray = window.location.pathname.split('/');
+    return pathArray[pathArray.length - 1];
+}
+const margin = {top: 50, right: 30, bottom: 30, left: 50},
+          width = 1200 - margin.left - margin.right,
+          height = 450 - margin.top - margin.bottom;
+function getAnnotation(x, y, transformedData, svg, slide_name) {
+    const annotations_slide_1 = [
+        {
+            note: {
+                label: "The Fall of Lehman Brothers",
+                title: "September 2008"
+            },
+            x: x(d3.timeParse("%Y-%b")("2008-Sep")),
+            y: y(transformedData.find(d => d.date.getTime() === d3.timeParse("%Y-%b")("2008-Sep").getTime()).value),
+            dy: -120,
+            dx: -1,
+        },
+        {
+            note: {
+                label: "Financial Crisis",
+                title: "2007- 2009"
+            },
+            x: x(d3.timeParse("%Y-%b")("2008-Sep")),
+            y: y(transformedData.find(d => d.date.getTime() === d3.timeParse("%Y-%b")("2008-Sep").getTime()).value),
+            dy: -200,
+            dx: 50,
+            subject: {
+                radius: 80,
+                radiusPadding: 2
+            },
+            type: d3.annotationCalloutCircle
+        },
+        {
+            note: { 
+                title: "Economic Recovery", 
+                lineType: "none", 
+                align: "middle",
+              },
+              subject: {
+                height: height - margin.top - margin.bottom,
+                width: x(d3.timeParse("%Y-%b")("2017-Mar")) - x(d3.timeParse("%Y-%b")("2009-Jun"))
+              },
+              type: d3.annotationCalloutRect,
+              y: margin.top + 20,
+              x: x(d3.timeParse("%Y-%b")("2009-Dec")),
+              disable: ["connector"],
+              dx: (x(d3.timeParse("%Y-%b")("2016-Mar")) - x(d3.timeParse("%Y-%b")("2009-Jun")))/2,
+              data: { x: "06/1/2010"}
+        }
+    ];
+
+    const annotations_slide_2 = [
+        {
+            note: {
+                label: "China announced discovery a cluster of pneumonia cases",
+                title: "Wuhan Outbreak"
+            },
+            x: x(d3.timeParse("%Y-%b")("2019-Dec")),
+            y: y(transformedData.find(d => d.date.getTime() === d3.timeParse("%Y-%b")("2021-Dec").getTime()).value),
+            dy: -50,
+            dx: -50,
+        },
+        {
+            note: {
+                label: "Federal and State started imposing 'stay at home' Quarantine",
+                title: "Stay At Home"
+            },
+            x: x(d3.timeParse("%Y-%b")("2020-Mar")),
+            y: y(transformedData.find(d => d.date.getTime() === d3.timeParse("%Y-%b")("2020-Mar").getTime()).value),
+            dy: -190,
+            dx: -50,
+        },
+        {
+            note: {
+                label: "COVID-19 Quarantine resulted in massive layoffs nationwide",
+                title: "Peak Unemployment Rate"
+            },
+            x: x(d3.timeParse("%Y-%b")("2020-Apr")),
+            y: y(transformedData.find(d => d.date.getTime() === d3.timeParse("%Y-%b")("2020-Apr").getTime()).value),
+            dy: 1,
+            dx: 50,
+        },
+        {
+            note: {
+                label: "FDA issued Emergency Use Authorization of Pfizer vaccine",
+                title: "COVID-19 vaccine"
+            },
+            x: x(d3.timeParse("%Y-%b")("2020-Dec")),
+            y: y(transformedData.find(d => d.date.getTime() === d3.timeParse("%Y-%b")("2020-Dec").getTime()).value),
+            dy: -30,
+            dx: 50,
+        },
+        {
+            note: {
+                label: "Unemployment Rate fell below pre-pandemic level",
+                title: "Quick Recovery"
+            },
+            x: x(d3.timeParse("%Y-%b")("2022-Feb")),
+            y: y(transformedData.find(d => d.date.getTime() === d3.timeParse("%Y-%b")("2022-Feb").getTime()).value),
+            dy: -40,
+            dx: 50,
+        },
+    ]
+    var annotations = [];
+    if (slide_name === "index.html"){
+        console.log("capturing slide 1 annotations")
+        annotations = annotations_slide_1;
+    } else if (slide_name === "slide2.html"){
+        annotations = annotations_slide_2;
+    }
+    const makeAnnotations = d3.annotation()
+    .annotations(annotations);
+
+    svg.append("g")
+    .attr("class", "annotation-group")
+    .style("font-size", 12)
+    .call(makeAnnotations);
+}
+
 function getHoverGuide(){
-    d3.select("#details-content").html(`<p>Hover over the points on the chart to see detailed information about the unemployment rate for each date.</p>`);
+    d3.select("#details-content").html(`<i>Hover over the points on the chart to see detailed information about the unemployment rate for each month.</i>`);
 }
 // Get the file name from query parameters
 const params = getQueryParams();
@@ -23,6 +144,9 @@ d3.json(fileName).then(data => {
     //     value: +d.Apr // Change this to the desired month or calculate the average
     // }));
     getHoverGuide()
+
+    const slide_name = getLastURISegment();
+    console.log("slide_name is " + slide_name);
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const transformedData = [];
     data.forEach(d => {
@@ -34,9 +158,7 @@ d3.json(fileName).then(data => {
         });
     });
 
-    const margin = {top: 50, right: 30, bottom: 30, left: 50},
-          width = 1000 - margin.left - margin.right,
-          height = 450 - margin.top - margin.bottom;
+    
 
     const svg = d3.select("#chart")
         .append("svg")
@@ -83,6 +205,9 @@ d3.json(fileName).then(data => {
         .attr("d", d3.line()
             .x(d => x(d.date))
             .y(d => y(d.value)));
+    
+
+    getAnnotation(x, y, transformedData, svg, slide_name);
 
     svg.selectAll(".dot")
         .data(transformedData)
@@ -98,4 +223,6 @@ d3.json(fileName).then(data => {
             getHoverGuide()    
         })
         ;
+
+         
 });

@@ -4,20 +4,29 @@
     <meta charset="UTF-8">
     <title>Unemployment Rate Visualization</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
     <div>
         <h1>United States National Unemployment Rate</h1>
+        <h5>Data: Unemployed Individuals with Less than a high school diploma, Age 25 years and over</h5>
     </div>
     <div>
-        <button onclick="location.href='slide2.html?file=high_school_no_college_over_25.json'">Next &#9654;</button>
+        <button onclick="location.href='slide2.html?file=less_high_school_over_25.json'">Next &#9654;</button>
     </div>
     
     <div class="container">
         <div id="chart"></div>
         <div id="details">
-            <h2>Less than a high school diploma, 25 years and over</h2>
+            <h2>The Great Recession</h2>
+            <p> 
+                September 15, 2008 when the fall of Lehman Brothers caused a major panic on the inter-bank loan market,
+                marking the beginning of the rising unemployment rate during the financial crisis.
+                The great recession technically occurred between December 2007 to June 2009 but the impact was felt until
+                May 2016 when unemployment rate fell prior to great recession. for 6 years the United States
+                went through gradual economic recovery
+            </p>
             <div id="details-content"></div>
         </div>
     </div>
